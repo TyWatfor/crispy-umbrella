@@ -1,0 +1,216 @@
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package projectwo;
+
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+/**
+ *
+ * @author tylonw
+ */
+
+
+
+public class prgm2 extends Application {
+    
+    public FirstClass F = new FirstClass();
+    public Business B = new Business();
+    public Economy E = new Economy();
+    
+    @Override
+    public void start(Stage primaryStage) {
+        // creating the GUI elements 
+        
+        
+        
+        primaryStage.setTitle("United Airline Ticket Reservation");
+        Label label1=new Label("Passenger Name");
+        Label label2=new Label("Departure");
+        Label label3=new Label("Destination");
+        Label label4=new Label("Flight #");
+        Label label5=new Label("Class");
+        Label label6=new Label("Date");
+        Label label7=new Label("Time");
+        Label label8 = new Label("Seat");
+        Label label9 = new Label("Snacks (Business or First Class)");
+        Button btn=new Button("SEARCH");
+        ComboBox comboBox = new ComboBox();
+        comboBox.getItems().addAll(
+                "Aisle",
+                "Windows"
+                );
+        
+        ComboBox comboBox2 = new ComboBox();
+        comboBox2.getItems().addAll(
+                "Cookies",
+                "Peanuts"
+                );
+        Text result=new Text("");
+        TextField passName=new TextField("Enter Passenger Name");
+        TextField departure=new TextField(" Enter Departure City ");
+        TextField destination=new TextField("Enter Destination");
+        TextField Date=new TextField("Enter Departure Date");
+        TextField flight=new TextField("Enter flight #"); 
+        TextField ticketclass=new TextField("enter Economy,Business or First Class"); 
+        DatePicker date=new DatePicker();
+        GridPane gp =new GridPane();
+        gp.setMinSize(400, 300);
+        gp.setPadding(new Insets(10,10,10,10));
+        gp.setHgap(10);
+        gp.setVgap(10);
+        gp.setAlignment(Pos.CENTER);
+       
+        gp.add(label1,0,0);
+        gp.add(passName, 1, 0);
+        gp.add(label4,2,0);
+        gp.add(flight, 3, 0);
+        gp.add(label9, 0, 3);
+        gp.add(comboBox2,1,3);
+        
+        gp.add(label2,0,1);
+        gp.add(departure, 1, 1);
+        gp.add(label3,2,1);
+        gp.add(destination,3,1);
+        
+        gp.add(label5,0,2);
+        gp.add(ticketclass, 1, 2);
+        gp.add(label6,2,2);
+        gp.add(date,3,2);
+        gp.add(btn,2,4);
+        gp.add(label8,2,3);
+        gp.add(comboBox,3,3);
+        gp.add(result,2,6);
+        //this part is when you hit search and the calcualations happen also a new page 
+        //pops up to display the booking information
+        //third window displays the 
+        btn.setOnAction(e -> {
+            
+            
+            
+            if(ticketclass.getText().toLowerCase().length() == 7){
+                
+                //F = new Economy();
+                if(E.getNumseats() == 0){
+                result.setText("There are No More Seats Available");
+                //gp.add(result,2,6);
+               
+                }else{
+                E.setDeparturedate(date.getValue());
+                E.setDeparturecity(departure.getText());
+                E.setDesitinationcity(destination.getText());
+                E.setflightNum( Integer.parseInt( flight.getText()) );
+                E.setPassengername(passName.getText());
+                E.setNumseats(E.getNumseats()- 1);
+                if(comboBox.getValue().equals("Aisle")){
+                E.setSeatSelection(true);
+                }else{
+                 E.setSeatSelection(false);
+                }
+                
+                result.setText(B.toString());
+                }
+                
+                
+            
+            }else if(ticketclass.getText().toLowerCase().length() == 8 ){
+                
+                //F = new Business();
+                if(B.getNumseats() == 0){
+                result.setText("There are No More Seats Available");
+                //gp.add(result,2,6);
+                
+                }else{
+                B.setDeparturedate(date.getValue());
+                B.setDeparturecity(departure.getText());
+                B.setDesitinationcity(destination.getText());
+                B.setflightNum( Integer.parseInt( flight.getText()) );
+                B.setPassengername(passName.getText());
+                B.setNumseats(B.getNumseats()- 1);
+                
+                if(comboBox.getValue().equals("Aisle")){
+                B.setSeatSelection(true);
+                }else{
+                 B.setSeatSelection(false);
+                }
+                
+                B.setSnacks(comboBox2.getValue().toString());
+               
+                result.setText(B.toString());
+                }
+                
+                 
+                 
+            }else{
+            
+                //F = new FirstClass();
+                
+                if(F.getNumseats() == 0){
+                result.setText("There are No More Seats Available");
+                //gp.add(result,2,6);
+                
+                }else{
+                F.setDeparturedate(date.getValue());
+                F.setDeparturecity(departure.getText());
+                F.setDesitinationcity(destination.getText());
+                F.setflightNum( Integer.parseInt( flight.getText()) );
+                F.setPassengername(passName.getText());
+                F.setNumseats(F.getNumseats()- 1);
+                
+                if(comboBox.getValue().equals("Aisle")){
+                F.setSeatSelection(true);
+                }else{
+                 F.setSeatSelection(false);
+                }
+                
+                
+                F.setSnacks(comboBox2.getValue().toString());
+                F.setTaxi(true);
+                result.setText(F.toString());
+                }
+                
+                
+            }
+            
+            
+            
+            
+            
+        });
+        
+        
+        
+        Scene scene = new Scene(gp, 600, 650);
+        
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+}
