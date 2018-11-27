@@ -1,0 +1,103 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package project2;
+
+import java.time.LocalDate;
+import java.util.Date;
+
+/**
+ *
+ * @author tylonw
+ */
+public class Economy {
+    private int numSeats,flightNum,price;
+    private boolean seatSelection;
+    private String ticketClass, passengerName,departureCity,destinationCity;
+    private LocalDate departureDate;
+
+    public Economy(){
+        numSeats=5;
+        setPrice(300);
+        ticketClass = "Economy";
+    }
+    public int getNumseats(){
+        return this.numSeats;
+    }
+    public void setNumseats(int numSeats){
+        this.numSeats=numSeats;
+    }
+    public int getFlightnum(){
+        return this.flightNum;
+    }
+    public void setflightNum(int flightNum){
+        this.flightNum=flightNum;
+    }
+    public String getTickeclass(){
+        return this.ticketClass;
+    }
+    public void setTicketclass(String ticketClass){
+        this.ticketClass=ticketClass;
+    }
+    public String getPassengername(){
+        return this.passengerName;
+    }
+    public void setPassengername(String passengerName){
+        this.passengerName=passengerName;
+    }
+
+    public String getDeparturecity(){
+        return this.departureCity;
+    }
+    public void setDeparturecity(String departureCity){
+        this.departureCity=departureCity;
+    }
+    public String getDestinationcity(){
+        return this.destinationCity;
+    }
+    public void setDesitinationcity(String destinationCity){
+        this.destinationCity=destinationCity;
+    }
+    public void setDeparturedate(LocalDate departureDate){
+        this.departureDate= departureDate;
+    }
+    public LocalDate getDeparturedate(){
+       return this.departureDate;
+    }
+    
+    public void setPrice(int price){
+    this.price=price;
+    }
+    
+    public int getPrice(){
+    return this.price;
+    }
+    /**
+     * @return the seatSelection
+     */
+    public boolean isSeatSelection() {
+        return seatSelection; // If true Aisle
+    }
+
+    /**
+     * @param seatSelection the seatSelection to set
+     */
+    public void setSeatSelection(boolean seatSelection) {
+        this.seatSelection = seatSelection;
+    }
+    
+    
+    @Override
+    public String toString(){
+    String X = "";
+    X= X+getPassengername()+"\n"+getDeparturedate()+"\n"+"Flight Number: "+getFlightnum()+"\n"+getDeparturecity()+"-"+getDestinationcity()+"\n";
+    if(isSeatSelection()){ X=X+"Aisle"+"\n";}else{X=X+"Window"+"\n";}
+    X=X+"$: "+getPrice()+"\n";
+    return X;
+    }
+    
+    
+    
+    }
