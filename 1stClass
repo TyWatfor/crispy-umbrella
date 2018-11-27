@@ -1,0 +1,42 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package projecttwo;
+
+/**
+ *
+ * @author tylonw
+ */
+public class FirstClass extends Business{
+    private boolean Taxi;
+    
+    public FirstClass(){
+    super.setPrice(900);
+    super.setTicketclass("First");
+    }
+
+    /**
+     * @return the Taxi
+     */
+    public boolean isTaxi() {
+        return Taxi;
+    }
+
+    /**
+     * @param Taxi the Taxi to set
+     */
+    public void setTaxi(boolean Taxi) {
+        this.Taxi = Taxi;
+    }
+    
+    @Override
+public String toString(){
+    String X = "";
+    X= X+ super.toString()+"Free Taxi";
+            return X;
+  }
+    
+    
+}
