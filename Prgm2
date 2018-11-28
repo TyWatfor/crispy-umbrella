@@ -1,8 +1,4 @@
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package projectwo;
+package prgm2;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -25,16 +21,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-/**
- *
- * @author tylonw
- */
 
 
 
-public class prgm2 extends Application {
-    
-    public FirstClass F = new FirstClass();
+public class Prgm2 extends Application {
+
+	public FirstClass F = new FirstClass();
     public Business B = new Business();
     public Economy E = new Economy();
     
@@ -197,7 +189,116 @@ public class prgm2 extends Application {
             
             
         });
-        
+        /** Create TimePicker Dialog **/
+	@Override
+	protected Dialog onCreateDialog(int id){
+		
+		if(id == TIME_DIALOG){
+		   return new TimePickerDialog(context, timePicker, calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE), false);
+		}
+		
+		return null;
+	}
+	
+	//Time Picker Listener
+	private TimePickerDialog.OnTimeSetListener timePicker = new TimePickerDialog.OnTimeSetListener() {
+
+		@Override
+		@SuppressLint("SimpleDateFormat")
+		public void onTimeSet(TimePicker view, int _hourOfDay, int _minute) {
+		
+		
+			hour = _hourOfDay;
+			minutes = _minute;
+			String AM_or_PM = "";
+			
+			calendar.set(Calendar.HOUR, hour);
+			calendar.set(Calendar.MINUTE, minutes);
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm");
+			String timeTxt = dateFormat.format(calendar.getTime());
+			
+			if(hour >= 12)
+			   AM_or_PM = "PM";
+			else if(hour < 12)
+			   AM_or_PM = "AM";
+			
+			Calculate_ArrivalTime(timeTxt+" "+AM_or_PM);
+			setTime.setText(timeTxt+" "+AM_or_PM);
+			setTime.setError(null);
+		}
+	};
+	
+	
+	/** Calculate Arrival Times **/
+	@SuppressLint("SimpleDateFormat")
+	private void Calculate_ArrivalTime(String time){
+		
+		SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+		try{
+			Date date = timeFormat.parse(time);
+			calendar.setTime(date);
+			calendar.add(Calendar.HOUR, 1);
+			arrivalTime_String = timeFormat.format(calendar.getTime());
+		
+		}catch(ParseException ex){
+			ex.printStackTrace();
+		}
+	}
+		/** User Selects Ticket Class **/
+	String TicketClass(){
+		
+		ticketClass.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				
+				switch(checkedId){
+				
+					case R.id.economy_class:
+						ticket = "Economy Class";
+						swipePages.setCurrentItem(0);
+					break;	
+				
+					case R.id.business_class:
+						ticket = "Business Class";
+						swipePages.setCurrentItem(1);
+					break;
+					
+					case R.id.first_class:
+						ticket = "First Class";
+						swipePages.setCurrentItem(2);
+					break;
+				}
+			}
+		});
+		
+		return ticket;
+	}
+
+    /** Notify User if Tickets have Been Sold-Out **/
+	void allTicketSold(){
+
+		try{
+		   String[] numT = new String[2];
+		   numT[2] = "Sold Out";
+		   
+		}catch(Exception ex){
+		   AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		   alert.setIcon(R.drawable.dialog_alert).setTitle("Sold Out\n"+soldOutInfo.getDepartureDate() +" "+ soldOutInfo.getDepartureTime());
+		   alert.setMessage("Sorry :P, "+soldOutInfo.getTicketClass()+" Tickets Are Sold Out!\n");
+	       alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				
+		       @Override
+			   public void onClick(DialogInterface dialog, int which) {
+				   dialog.cancel();
+			   }
+		   });
+		   alert.show();
+			   
+		   ex.printStackTrace();
+		}
+	}
+	
         
         
         Scene scene = new Scene(gp, 600, 650);
